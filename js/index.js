@@ -40,6 +40,49 @@
 // console.log("Площадь окружности: " + newCircle.area());
 // console.log("Длина окружности: " + newCircle.circumference());
 
+//Реализовать класс, описывающий html элемент.
+//Класс HtmlElement должен содержать внутри себя:
+//■ название тега;
+//■ самозакрывающийся тег или нет;
+//■ текстовое содержимое;
+//■ массив атрибутов;
+//■ массив стилей;
+//■ массив вложенных таких же тегов
+// метод для установки атрибута;
+//■ метод для установки стиля;
+//■ метод для добавления вложенного элемента в конец текущего элемента;
+//■ метод для добавления вложенного элемента в начало текущего элемента;
+//■ метод getHtml(), который возвращает html код в виде
+//строки, включая html код вложенных элементов.
+
+class HtmlElement {
+  constructor(tagName, isSelfClosing = false, textContent = "") {
+    this.tagName = tagName;
+    this.isSelfClosing = isSelfClosing;
+    this.textContent = textContent;
+    this.attributes = {};
+    this.children = [];
+  }
+
+  setAttribute(attributeName, attributeValue) {
+    this.attributes[attributeName] = attributeValue;
+  }
+
+  appendChild(childElement) {
+    this.children.push(childElement);
+  }
+
+  prependChild(childElement) {
+    this.children = [childElement, ...this.children];
+  }
+}
+const div = new HtmlElement("div");
+div.setAttribute("id", "main");
+div.setAttribute("class", "container");
+div.prependChild(new HtmlElement("span", false, "This is a span element."));
+div.prependChild(new HtmlElement("p", false, "This is a paragraph."));
+
+
 //Реализовать класс, который описывает css класс.
 //Класс CssClass должен содержать внутри себя:
 //■ название css класса;
@@ -86,97 +129,3 @@
 //элементов).
 //С помощью написанных классов реализовать следующий блок
 //(см. рис. 2) и добавить его на страницу с помощью document.write().
-
-// class CssClass {
-//   constructor(className) {
-//     this.className = className;
-//     this.styles = {};
-//   }
-
-//   setStyle(property, value) {
-//     this.styles[property] = value;
-//   }
-
-//   removeStyle(property) {
-//     delete this.styles[property];
-//   }
-
-//   getCss() {
-//     let cssCode = `.${this.className} {`;
-//     for (const property in this.styles) {
-//       cssCode += `\n    ${property}: ${this.styles[property]};`;
-//     }
-//     cssCode += `\n}`;
-//     return cssCode;
-//   }
-// }
-
-// class HtmlElement {
-//   constructor(tagName, content = "", attributes = {}) {
-//     this.tagName = tagName;
-//     this.content = content;
-//     this.attributes = attributes;
-//     this.children = [];
-//   }
-
-//   addChild(child) {
-//     this.children.push(child);
-//   }
-
-//   getCode() {
-//     let htmlCode = `<${this.tagName}`;
-//     for (const key in this.attributes) {
-//       htmlCode += ` ${key}="${this.attributes[key]}"`;
-//     }
-//     htmlCode += `>${this.content}`;
-//     this.children.forEach((child) => {
-//       htmlCode += child.getCode();
-//     });
-//     htmlCode += `</${this.tagName}>`;
-//     return htmlCode;
-//   }
-// }
-
-// class HtmlBlock {
-//   constructor() {
-//     this.cssClasses = [];
-//     this.rootElement = null;
-//   }
-
-//   addCssClass(cssClass) {
-//     this.cssClasses.push(cssClass);
-//   }
-
-//   setRootElement(rootElement) {
-//     this.rootElement = rootElement;
-//   }
-
-//   getCode() {
-//     let htmlCode = "<style>";
-//     this.cssClasses.forEach((cssClass) => {
-//       htmlCode += `\n${cssClass.getCss()}`;
-//     });
-//     htmlCode += "</style>";
-//     htmlCode += this.rootElement.getCode();
-//     return htmlCode;
-//   }
-// }
-
-// const containerCss = new CssClass("container");
-// containerCss.setStyle("width", "200px");
-// containerCss.setStyle("height", "200px");
-// containerCss.setStyle("background-color", "lightblue");
-
-// const textCss = new CssClass("text");
-// textCss.setStyle("color", "red");
-// textCss.setStyle("font-size", "24px");
-
-// const containerDiv = new HtmlElement("div", "", { class: "container" });
-// const textDiv = new HtmlElement("div", "Hello, world!", { class: "text" });
-
-// containerDiv.addChild(textDiv);
-
-// const block = new HtmlBlock();
-// block.addCssClass(containerCss);
-// block.addCssClass(textCss);
-// block.setRootElement(containerDiv);
